@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+.venv/
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Logs
+*.log
+
+# Jupyter Notebooks
+*.ipynb
+
+# Environment variables
+.env
+
+# Data files
+*.parquet
+data/processed/*pickle
+
+# macOS specific files
+.DS_Store
+
+# Pickle files
+*.pkl
+
+# pytest cache
+.pytest_cache/
+
+
+# Virtual environment
+.venv/
