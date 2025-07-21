@@ -28,7 +28,6 @@ class DataLoader:
             file_name = url.split("/")[-1]
             file_path = os.path.join(self.data_dir, file_name)
 
-            
             # Check if the file already exists
             if os.path.exists(file_path):
                 logger.info(f"{file_name} already exists. Skipping download.")
@@ -198,7 +197,6 @@ class DataPreprocessor(BaseEstimator, TransformerMixin):
     
     def _handle_nulls_using_data_dictionary(self, df):
         """Handle null values based on the data dictionary."""
-        # Assuming the data dictionary specifies how to handle nulls for each column
         df.fillna(NA_DICT, inplace=True)
         return df
 
@@ -272,6 +270,7 @@ class CustomFeatureEngineer(BaseEstimator, TransformerMixin):
         df['zone_route'] = df['service_zone_pickup'] + '_' + df['service_zone_dropoff']
         
         # pick up and dropoff boroughs and service zones
+        df['same_id'] = (df['PULocationID'] == df['DOLocationID']).astype(int)
         df['same_borough'] = (df['Borough_pickup'] == df['Borough_dropoff']).astype(int)
         df['same_service_zone'] = (df['service_zone_pickup'] == df['service_zone_dropoff']).astype(int)
         return df

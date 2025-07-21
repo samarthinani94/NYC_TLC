@@ -26,17 +26,15 @@ dist/
 
 # Data files
 *.parquet
-data/processed/*pickle
+*.pickle
+*.pkl
+*.csv
 
 # macOS specific files
 .DS_Store
 
-# Pickle files
-*.pkl
-
 # pytest cache
 .pytest_cache/
-
 
 # Virtual environment
 .venv/

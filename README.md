@@ -10,6 +10,9 @@ The output of the project includes:
 
 1. **Trained and Serialized Model**: The trained model will be saved as `final_model.pickle` in the `models/` directory.
 2. **Performance Report**: A detailed report on the model's performance will be saved in `logs/evaluation_results.txt`.
+3. **Flask API** At the end of Section 3 and 4 
+4. `considerations.md`: details regarding decision made for data preprocessing, feature engineering and train-val-test split
+5. `todos.md`: Next steps including scope for improvements
 
 ---
 
@@ -116,6 +119,35 @@ This file contains unit tests for the preprocessing pipeline. These tests ensure
 ## Run with Docker
 
 #### Build the Docker Image
+NOTE: Currently the data is been manipulated using pandas and measures for memory management haven't been made, so needs more memory. If using Docker Desktop-
+1. Open Docker Desktop.
+2. Go to Settings > Resources > Advanced.
+3. Set Memory Limit to 24GB and Disk Usage limit to 16GB
+4. Click Apply & Restart.
+
+##### Single Command to Run - Build, Train and Eval
+
+```bash
+docker build -t nyc-taxi-fare . && \
+docker run --rm \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/models:/app/models \
+  -v $(pwd)/logs:/app/logs \
+  nyc-taxi-fare \
+  python src/train_model.py && \
+docker run --rm \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/models:/app/models \
+  -v $(pwd)/logs:/app/logs \
+  nyc-taxi-fare \
+  python src/run_eval.py
+```
+
+- This will download the data, preprocess it, train the model, and save the artifacts (`best_hyp_tun_model.pickle`, `final_model.pickle`, `encoder.pickle`) in the  `models/` directory.
+- The results of eval will be saved in `logs/evaluation_results.txt`.
+
+##### Separate Commands
+
 To build the Docker image, run the following command:
 
 ```bash
@@ -123,6 +155,8 @@ docker build -t nyc-taxi-fare .
 ```
 
 #### Train the Model
+This will download the data, preprocess it, train the model, and save the artifacts (`best_hyp_tun_model.pickle`, `final_model.pickle`, `encoder.pickle`) in the  `models/` directory.
+
 To train the model using Docker, execute the following command:
 
 ```bash
@@ -145,6 +179,8 @@ docker run --rm \
   nyc-taxi-fare \
   python src/run_eval.py
 ```
+
+The results of eval will be saved in `logs/evaluation_results.txt`
 
 #### Run the FastAPI Application
 To start the FastAPI application, run:
@@ -243,6 +279,12 @@ Key libraries include:
 - `xgboost`
 - `fastapi`
 - `uvicorn`
+
+##### Single Command to Run - Train and Eval
+```bash
+python -m src.train_model && python -m src.run_eval
+```
+
 
 ### Train the Model
 Run the training script. This will download the data, preprocess it, train the model, and save the artifacts (`best_hyp_tun_model.pickle`, `final_model.pickle`, `encoder.pickle`) in the `models/` directory:
